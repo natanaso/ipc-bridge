@@ -10,8 +10,9 @@
   <url>http://ros.org/wiki/ipc_bridge_ros</url>
 
   <depend package="roscpp"/>
-  <depend package="sensor_msgs"/>
   <depend package="ipc_bridge"/>
+  <depend package="sensor_msgs"/>
+  <depend package="asctec"/>
 
 </package>
 

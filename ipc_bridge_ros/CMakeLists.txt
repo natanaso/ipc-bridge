@@ -30,3 +30,5 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #target_link_libraries(example ${PROJECT_NAME})
 
 rosbuild_add_executable(sensor_msgs_Imu_publisher src/sensor_msgs_Imu_publisher.cc)
+rosbuild_add_executable(asctec_HWCmd_subscriber src/asctec_HWCmd_subscriber.cc)
+rosbuild_add_executable(asctec_DMCmd_subscriber src/asctec_DMCmd_subscriber.cc)

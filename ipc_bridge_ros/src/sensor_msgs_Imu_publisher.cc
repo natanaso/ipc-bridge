@@ -51,7 +51,7 @@ int main(int argc, char** argv)
   string message_name;
   n.param("message", message_name, string("imu"));
 
-  ros::Subscriber sub = n.subscribe("imu", 100, callback);
+  ros::Subscriber sub = n.subscribe("imu", 10, callback);
 
   imu = new ipc_bridge::Publisher<ipc_bridge::sensor_msgs::Imu>(ros::this_node::getName(), 
                                                                 message_name);
