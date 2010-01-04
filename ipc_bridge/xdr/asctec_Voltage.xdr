@@ -1,0 +1,21 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+%}
+
+ipc_type roslib_Header;
+
+struct asctec_Voltage
+{
+ roslib_Header header;
+ float battery_voltage;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace asctec
+    {
+        typedef asctec_Voltage Voltage;
+    }
+}
+%}

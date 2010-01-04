@@ -1,0 +1,33 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/geometry_msgs_Quaternion.h>
+#include <ipc_bridge/msgs/geometry_msgs_Vector3.h>
+%}
+
+ipc_type roslib_Header;
+ipc_type geometry_msgs_Quaternion;
+ipc_type geometry_msgs_Vector3;
+
+struct sensor_msgs_Imu
+{
+ roslib_Header header;
+
+ geometry_msgs_Quaternion orientation;
+ double orientation_covariance[9];
+
+ geometry_msgs_Vector3 angular_velocity;
+ double angular_velocity_covariance[9];
+
+ geometry_msgs_Vector3 linear_acceleration;
+ double linear_acceleration_covariance[9];
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace sensor_msgs
+    {
+        typedef sensor_msgs_Imu Imu;
+    }
+}
+%}

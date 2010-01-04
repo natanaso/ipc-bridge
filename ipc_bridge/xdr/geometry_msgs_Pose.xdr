@@ -1,0 +1,24 @@
+%{
+#include <ipc_bridge/msgs/geometry_msgs_Point.h>
+#include <ipc_bridge/msgs/geometry_msgs_Quaternion.h>
+%}
+
+ipc_type geometry_msgs_Point;
+ipc_type geometry_msgs_Quaternion;
+
+struct geometry_msgs_Pose
+{
+ geometry_msgs_Point position;
+ geometry_msgs_Quaternion orientation;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace geometry_msgs
+    {
+        typedef geometry_msgs_Pose Pose;
+    }
+}
+%}
+

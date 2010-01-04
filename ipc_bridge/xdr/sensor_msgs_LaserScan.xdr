@@ -1,0 +1,32 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+%}
+
+ipc_type roslib_Header;
+
+struct sensor_msgs_LaserScan
+{
+ roslib_Header header;
+ float angle_min;
+ float angle_max;
+ float angle_increment;
+ float time_increment;
+ float scan_time;
+ float range_min;
+ float range_max;
+ unsigned int ranges_length;
+ float ranges<>;
+ unsigned int intensities_length;
+ float intensities<>;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace sensor_msgs
+    {
+        typedef sensor_msgs_LaserScan LaserScan;
+    }
+}
+%}
+

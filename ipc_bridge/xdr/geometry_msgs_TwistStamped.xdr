@@ -1,0 +1,24 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/geometry_msgs_Twist.h>
+%}
+
+ipc_type roslib_Header;
+ipc_type geometry_msgs_Twist;
+
+struct geometry_msgs_TwistStamped
+{
+ roslib_Header header;
+ geometry_msgs_Twist twist;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace geometry_msgs
+    {
+        typedef geometry_msgs_TwistStamped TwistStamped;
+    }
+}
+%}
+

@@ -1,0 +1,22 @@
+%{
+#include <ipc_bridge/msgs/geometry_msgs_Vector3.h>
+%}
+
+ipc_type geometry_msgs_Vector3;
+
+struct geometry_msgs_Wrench
+{
+ geometry_msgs_Vector3 force;
+ geometry_msgs_Vector3 torque;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace geometry_msgs
+    {
+        typedef geometry_msgs_Wrench Wrench;
+    }
+}
+%}
+

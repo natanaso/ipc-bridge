@@ -1,0 +1,25 @@
+%{
+#include <ipc_bridge/msgs/geometry_msgs_Pose.h>
+%}
+
+ipc_type geometry_msgs_Pose;
+
+struct nav_msgs_MapMetaData
+{
+ double map_load_time;
+ float resolution;
+ unsigned int width;
+ unsigned int height;
+ geometry_msgs_Pose origin;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace nav_msgs
+    {
+        typedef nav_msgs_MapMetaData MapMetaData;
+    }
+}
+%}
+

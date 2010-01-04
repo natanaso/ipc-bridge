@@ -1,0 +1,18 @@
+<package>
+  <description brief="ros_matlab">
+
+     ros_matlab
+
+  </description>
+  <author>Nathan Michael</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ros_matlab</url>
+
+  <export>
+    <cpp cflags="-I${prefix}/include" lflags="-lipc"/>
+  </export>
+
+</package>
+
+

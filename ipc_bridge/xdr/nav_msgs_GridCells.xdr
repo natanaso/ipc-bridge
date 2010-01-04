@@ -1,0 +1,26 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/geometry_msgs_Point.h>
+%}
+
+ipc_type roslib_Header;
+ipc_type geometry_msgs_Point;
+
+struct nav_msgs_GridCells
+{
+ roslib_Header header;
+ float cell_width;
+ float cell_height;
+ unsigned int cells_length;
+ geometry_msgs_Point cells<>;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace nav_msgs
+    {
+        typedef nav_msgs_GridCells GridCells;
+    }
+}
+%}

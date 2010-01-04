@@ -1,0 +1,16 @@
+struct geometry_msgs_Vector3
+{
+  double x;        
+  double y;
+  double z;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace geometry_msgs
+    {
+        typedef geometry_msgs_Vector3 Vector3;
+    }
+}
+%}

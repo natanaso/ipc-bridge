@@ -1,0 +1,25 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/geometry_msgs_TransformStamped.h>
+%}
+
+ipc_type roslib_Header;
+ipc_type geometry_msgs_TransformStamped;
+
+struct tf_tfMessage
+{
+ unsigned int transforms_length;
+ geometry_msgs_TransformStamped transforms<>;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace tf
+    {
+        typedef tf_tfMessage tfMessage;
+    }
+}
+%}
+
+

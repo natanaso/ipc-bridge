@@ -1,0 +1,14 @@
+struct roslib_Header
+{
+  unsigned int seq;
+  double stamp;
+  string frame_id<>;
+};
+
+%{
+namespace ipc_bridge
+{
+    typedef roslib_Header Header;
+}
+%}
+

@@ -1,0 +1,22 @@
+%{
+#include <ipc_bridge/msgs/geometry_msgs_Vector3.h>
+%}
+
+ipc_type geometry_msgs_Vector3;
+
+struct geometry_msgs_Twist
+{
+ geometry_msgs_Vector3 linear;
+ geometry_msgs_Vector3 angular;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace geometry_msgs
+    {
+        typedef geometry_msgs_Twist Twist;
+    }
+}
+%}
+

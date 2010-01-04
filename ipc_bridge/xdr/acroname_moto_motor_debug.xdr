@@ -1,0 +1,25 @@
+struct acroname_moto_motor_debug
+{
+ char sp_enc_left;
+ char sp_enc_right;
+ char enc_left;
+ char enc_right;
+ double sp_wheel_left;
+ double sp_wheel_right;
+ double wheel_left;
+ double wheel_right;
+ double sp_v;
+ double sp_w;
+ double v;
+ double w;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace acroname_moto
+    {
+        typedef acroname_moto_motor_debug motor_debug;
+    }
+}
+%}

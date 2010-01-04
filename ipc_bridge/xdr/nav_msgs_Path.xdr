@@ -1,0 +1,25 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/geometry_msgs_PoseStamped.h>
+%}
+
+ipc_type roslib_Header;
+ipc_type geometry_msgs_PoseStamped;
+
+struct nav_msgs_Path
+{
+ roslib_Header header;
+ unsigned int poses_length;
+ geometry_msgs_PoseStamped poses<>;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace nav_msgs
+    {
+        typedef nav_msgs_Path Path;
+    }
+}
+%}
+

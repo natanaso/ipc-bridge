@@ -1,0 +1,28 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/geometry_msgs_PoseWithCovariance.h>
+#include <ipc_bridge/msgs/geometry_msgs_TwistWithCovariance.h>
+%}
+
+ipc_type roslib_Header;
+ipc_type geometry_msgs_PoseWithCovariance;
+ipc_type geometry_msgs_TwistWithCovariance;
+
+struct nav_msgs_Odometry
+{
+ roslib_Header header;
+ string child_frame_id<>;
+ geometry_msgs_PoseWithCovariance pose;
+ geometry_msgs_TwistWithCovariance twist;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace nav_msgs
+    {
+        typedef nav_msgs_Odometry Odometry;
+    }
+}
+%}
+

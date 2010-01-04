@@ -1,0 +1,18 @@
+struct asctec_HWCmd
+{
+ float thrust;
+ float roll;
+ float pitch;
+ float yaw;
+ bool cmd[4];
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace asctec
+    {
+        typedef asctec_HWCmd HWCmd;
+    }
+}
+%}

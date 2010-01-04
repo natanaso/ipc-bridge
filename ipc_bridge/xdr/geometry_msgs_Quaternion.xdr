@@ -1,0 +1,17 @@
+struct geometry_msgs_Quaternion
+{
+   double x;
+   double y;
+   double z;
+   double w;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace geometry_msgs
+    {
+        typedef geometry_msgs_Quaternion Quaternion;
+    }
+}
+%}

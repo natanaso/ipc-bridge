@@ -1,0 +1,21 @@
+%{
+#include <ipc_bridge/msgs/geometry_msgs_Twist.h>
+%}
+
+ipc_type geometry_msgs_Twist;
+
+struct geometry_msgs_TwistWithCovariance
+{
+ geometry_msgs_Twist twist;
+ double covariance[36];
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace geometry_msgs
+    {
+        typedef geometry_msgs_TwistWithCovariance TwistWithCovariance;
+    }
+}
+%}
