@@ -18,7 +18,7 @@ if sid < 0
   return
 end
 disp('testing send');
-if fcn('send', pid, empty{1}) ~= 0
+if fcn('send', pid, empty) ~= 0
   disp(sprintf('%s: failed to send', name));
   ret = false;
   return
@@ -26,7 +26,7 @@ end
 pause(0.1)
 disp('testing read');
 ret = fcn('read', sid, 100);
-if ~isempty(comp_struct(ret{1}, empty{1}))
+if ~isempty(comp_struct(ret{1}, empty))
   disp(sprintf('%s: read did not get expected message', ...
                name));
   ret = false;

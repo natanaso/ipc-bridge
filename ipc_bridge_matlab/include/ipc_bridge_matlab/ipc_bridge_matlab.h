@@ -180,12 +180,9 @@ namespace ipc_bridge_matlab
 
     int ReturnEmptyMessage(mxArray *plhs[])
     {
-      const int size = 1;
-      plhs[0] = mxCreateCellArray(1, &size);
-
       T m;
       memset((void*)&m, 0, sizeof(m));
-      mxSetCell(plhs[0], 0, message_handler(m));
+      plhs[0] = message_handler(m);
 
       return NOOVERWRITE;
     }
