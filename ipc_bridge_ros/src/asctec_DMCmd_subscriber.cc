@@ -44,11 +44,11 @@ int main(int argc, char** argv)
       return -1;
     }
 
-  ros::Rate r(100);
+  ros::Rate r(1000);
 
   while (n.ok())
     {
-      cmd->Listen(5);
+      cmd->Listen(0);
       r.sleep();
     }
 
