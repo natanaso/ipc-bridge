@@ -13,8 +13,6 @@
 #define ERROR_UNHANDLED -14
 #define ERROR_FAILED -15
 
-#define MAX_QUEUE_SIZE 100
-
 #define TRY(func, code) if (func != 0) {return code;}
 
 namespace ipc_bridge_matlab
@@ -115,6 +113,8 @@ namespace ipc_bridge_matlab
 
       if (!strcmp(buf, "read"))
         return Read(plhs, nrhs, prhs);
+      else if (!strcmp(buf, "readone"))
+        return ReadOne(plhs, nrhs, prhs);
       else if (!strcmp(buf, "send"))
         return Send(nrhs, prhs);
       else if (!strcmp(buf, "connect"))
@@ -134,15 +134,12 @@ namespace ipc_bridge_matlab
 
     static void MessageCallback(const T &msg, void *user_ptr)
     {
-      std::list<T> *msgs = reinterpret_cast<std::list<T>*>(user_ptr);
+      std::list<T*> *msgs = reinterpret_cast<std::list<T*>*>(user_ptr);
 
-      msgs->push_back(msg);
+      T* m = new T;
+      memcpy((void*)m, (void*)&msg, sizeof(T));
 
-      if (msgs->size() > MAX_QUEUE_SIZE)
-        {
-          mexWarnMsgTxt("Dropping older messages, queue is full!");
-          msgs->pop_front();
-        }
+      msgs->push_back(m);
 
       return;
     }
@@ -187,7 +184,7 @@ namespace ipc_bridge_matlab
       return NOOVERWRITE;
     }
 
-    typedef typename std::list<T>::iterator msg_iter;
+    typedef typename std::list<T*>::iterator msg_iter;
     int Read(mxArray *plhs[], int nrhs, const mxArray *prhs[])
     {
       TRY(CheckInput(nrhs, 3, "read"), ERROR_INPUT);
@@ -205,15 +202,61 @@ namespace ipc_bridge_matlab
 
       if (subscribers.count(id) > 0)
         {
-          subscribers[id]->ListenClear(timeout);
+          subscribers[id]->Listen(timeout);
           
           const int size = msgs[id]->size();
           plhs[0] = mxCreateCellArray(1, &size);
 
           unsigned int j = 0;
           for (msg_iter i = msgs[id]->begin(); i != msgs[id]->end(); ++i, j++)
-            mxSetCell(plhs[0], j, message_handler(*i));
+            {
+              mxSetCell(plhs[0], j, message_handler(**i));
+              delete *i;
+            }
           
+          msgs[id]->clear();
+
+          return NOOVERWRITE;
+        }
+      
+      mexWarnMsgTxt("Attempted to read on unknown id");
+      if (id < id_counter)
+        mexWarnMsgTxt("Did you call disconnect on this id?");
+      else
+        mexWarnMsgTxt("Did you call create yet to generate this id?");
+
+      return ERROR_FAILED;
+    }
+
+    int ReadOne(mxArray *plhs[], int nrhs, const mxArray *prhs[])
+    {
+      TRY(CheckInput(nrhs, 3, "readone"), ERROR_INPUT);
+      TRY(CheckInputType(prhs[1], SCALAR), ERROR_INPUT);
+      TRY(CheckInputType(prhs[2], SCALAR), ERROR_INPUT);
+
+      unsigned int id = (unsigned int)mxGetScalar(prhs[1]);
+      unsigned int timeout = (unsigned int)mxGetScalar(prhs[2]);
+
+      if (publishers.count(id) > 0)
+        {
+          mexWarnMsgTxt("Attempted to read on a publisher id");
+          return ERROR_FAILED;
+        }
+
+      if (subscribers.count(id) > 0)
+        {
+          subscribers[id]->Listen(timeout);
+          if (msgs[id]->size() > 0)
+            plhs[0] = message_handler(*(msgs[id]->back()));         
+          else
+            {
+              const int size = 0;
+              plhs[0] = mxCreateCellArray(1, &size);
+            }
+
+          for (msg_iter i = msgs[id]->begin(); i != msgs[id]->end(); ++i)
+            delete *i;
+
           msgs[id]->clear();
 
           return NOOVERWRITE;
@@ -253,7 +296,7 @@ namespace ipc_bridge_matlab
 
       if (type == std::string("subscriber"))
         {
-          msgs[id] = new std::list<T>;
+          msgs[id] = new std::list<T*>;
           ipc_bridge::Subscriber<T> *sub = new ipc_bridge::Subscriber<T>(module_name, message_name,
                                                                          Interface::MessageCallback,
                                                                          (void*)(msgs[id]));
@@ -335,7 +378,7 @@ namespace ipc_bridge_matlab
     {
       typedef typename std::map<unsigned int, ipc_bridge::Subscriber<T>*>::iterator s_iter;
       typedef typename std::map<unsigned int, ipc_bridge::Publisher<T>*>::iterator p_iter;
-      typedef typename std::map<unsigned int, std::list<T>*>::iterator l_iter;
+      typedef typename std::map<unsigned int, std::list<T*>*>::iterator l_iter;
 
       for (s_iter i = subscribers.begin(); i != subscribers.end(); ++i)
         delete (*i).second;
@@ -346,13 +389,18 @@ namespace ipc_bridge_matlab
       publishers.clear();
 
       for (l_iter i = msgs.begin(); i != msgs.end(); ++i)
-        delete (*i).second;
+        {
+          for (msg_iter j = (*i).second->begin();
+               j != (*i).second->end(); ++j)
+            delete *j;
+          delete (*i).second;
+        }
       msgs.clear();
     }
   private:
     std::map<unsigned int, ipc_bridge::Subscriber<T>*> subscribers;
     std::map<unsigned int, ipc_bridge::Publisher<T>*> publishers;
-    std::map<unsigned int, std::list<T>*> msgs;
+    std::map<unsigned int, std::list<T*>*> msgs;
 
     T outgoing_msg;
 
