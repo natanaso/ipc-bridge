@@ -18,6 +18,91 @@ struct sensor_msgs_LaserScan
  float ranges<>;
  unsigned int intensities_length;
  float intensities<>;
+%{
+  sensor_msgs_LaserScan() :
+    angle_min(0), angle_max(0),
+    angle_increment(0), scan_time(0),
+    range_min(0), range_max(0),
+    ranges_length(0), ranges(0),
+    intensities_length(0), intensities(0) {}
+  sensor_msgs_LaserScan(const sensor_msgs_LaserScan &msg) :
+    header(msg.header),
+    angle_min(msg.angle_min), angle_max(msg.angle_max),
+    angle_increment(msg.angle_increment),
+    scan_time(msg.scan_time),
+    range_min(msg.range_min), range_max(msg.range_max),
+    ranges_length(msg.ranges_length),
+    intensities_length(msg.intensities_length)
+  {
+    if (ranges != 0)
+      delete[] ranges;
+
+    ranges = 0;
+    if (msg.ranges_length > 0)
+      {
+        ranges = new float[ranges_length];
+        memcpy((void*)ranges, (void*)msg.ranges, 
+               ranges_length*sizeof(float));
+      }
+
+    if (intensities != 0)
+      delete[] intensities;
+
+    intensities = 0;
+    if (intensities_length > 0)
+      {
+        intensities = new float[intensities_length];
+        memcpy((void*)intensities, (void*)msg.intensities, 
+               intensities_length*sizeof(float));
+      }
+  }
+  ~sensor_msgs_LaserScan()
+  {
+    if (ranges != 0)
+      delete[] ranges;
+    ranges = 0;
+
+    if (intensities != 0)
+      delete[] intensities;
+    intensities = 0;
+  }
+  sensor_msgs_LaserScan& operator= (const sensor_msgs_LaserScan& msg)
+  {
+    header = msg.header;
+    angle_min = msg.angle_min;
+    angle_max = msg.angle_max;
+    angle_increment = msg.angle_increment;
+    scan_time = msg.scan_time;
+    range_min = msg.range_min;
+    range_max = msg.range_max;
+    ranges_length = msg.ranges_length;
+    intensities_length = msg.intensities_length;
+
+    if (ranges != 0)
+      delete[] ranges;
+
+    ranges = 0;
+    if (msg.ranges_length > 0)
+      {
+        ranges = new float[ranges_length];
+        memcpy((void*)ranges, (void*)msg.ranges, 
+               ranges_length*sizeof(float));
+      }
+
+    if (intensities != 0)
+      delete[] intensities;
+
+    intensities = 0;
+    if (intensities_length > 0)
+      {
+        intensities = new float[intensities_length];
+        memcpy((void*)intensities, (void*)msg.intensities, 
+               intensities_length*sizeof(float));
+      }
+
+    return *this;
+  } 
+%}
 };
 
 %{

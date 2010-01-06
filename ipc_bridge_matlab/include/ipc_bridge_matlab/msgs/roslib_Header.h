@@ -17,7 +17,10 @@ namespace ipc_bridge_matlab
 
       mxSetField(out, 0, "seq", mxCreateDoubleScalar(msg.seq));
       mxSetField(out, 0, "stamp", mxCreateDoubleScalar(msg.stamp));
-      mxSetField(out, 0, "frame_id", mxCreateString(msg.frame_id));
+
+      char* buf = new char[strlen(msg.frame_id) + 1];
+      strcpy(buf, msg.frame_id);
+      mxSetField(out, 0, "frame_id", mxCreateString(buf));
 
       return out;
     }

@@ -3,6 +3,33 @@ struct roslib_Header
   unsigned int seq;
   double stamp;
   string frame_id<>;
+%{
+  roslib_Header() : seq(0), stamp(0), frame_id(0) {}
+  roslib_Header(const roslib_Header& msg) :
+    seq(msg.seq), stamp(msg.stamp)
+  {
+    frame_id = new char[strlen(msg.frame_id) + 1];
+    strcpy(frame_id, msg.frame_id);
+  }
+  ~roslib_Header()
+  {
+    if (frame_id != 0)
+      delete[] frame_id;
+  }
+  roslib_Header& operator= (const roslib_Header& msg)
+  {
+    seq = msg.seq;
+    stamp = msg.stamp;
+
+    if (frame_id != 0)
+      delete[] frame_id;
+
+    frame_id = new char[strlen(msg.frame_id) + 1];
+    strcpy(frame_id, msg.frame_id);
+
+    return *this;
+  }
+%}
 };
 
 %{
