@@ -1,0 +1,79 @@
+%{
+#include <cstring>
+%}
+
+struct vicon_Names
+{
+  unsigned int names_length;
+  string names<><>;
+%{
+  vicon_Names() : names_length(0), names(0) {}
+  vicon_Names(const vicon_Names& msg) :
+    names_length(msg.names_length)
+  {
+    if (names != 0)
+      {
+        for (unsigned int i = 0; i < names_length; i++)
+          if (names[i] != 0)
+            delete[] names[i];
+        delete names;
+      }
+    names = 0;
+
+    if (msg.names_length > 0)
+      {
+        names = new char*[names_length];
+        for (unsigned int i = 0; i < names_length; i++)
+          {
+            names[i] = new char[strlen(msg.names[i])+1];
+            strcpy(names[i], msg.names[i]);
+          }
+      }
+  }
+  ~vicon_Names()
+  {
+    if (names != 0)
+      {
+        for (unsigned int i = 0; i < names_length; i++)
+          if (names[i] != 0)
+            delete[] names[i];
+        delete names;
+      }
+    names = 0;
+  }
+  vicon_Names& operator= (const vicon_Names& msg)
+  {
+    if (names != 0)
+      {
+        for (unsigned int i = 0; i < names_length; i++)
+          if (names[i] != 0)
+            delete[] names[i];
+        delete names;
+      }
+    names = 0;
+
+    names_length = msg.names_length;
+    if (names_length > 0)
+      {
+        names = new char*[names_length];
+        for (unsigned int i = 0; i < names_length; i++)
+          {
+            names[i] = new char[strlen(msg.names[i])+1];
+            strcpy(names[i], msg.names[i]);
+          }
+      }
+
+    return *this;
+  }
+%}
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace vicon
+    {
+        typedef vicon_Names Names;
+    }
+}
+%}

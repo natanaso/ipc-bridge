@@ -24,7 +24,19 @@ namespace ipc_bridge_matlab
 
         mxSetField(out, 0, "header", 
                    ipc_bridge_matlab::Header::ProcessMessage(msg.header));
-        mxSetField(out, 0, "child_frame_id", mxCreateString(msg.child_frame_id));
+
+      if (msg.child_frame_id == 0)
+        {
+          char buf[1] = "";
+          mxSetField(out, 0, "child_frame_id", mxCreateString(buf));
+        }
+      else
+        {
+          char buf[strlen(msg.child_frame_id) + 1];
+          strcpy(buf, msg.child_frame_id);
+          mxSetField(out, 0, "child_frame_id", mxCreateString(buf));
+        }
+
         mxSetField(out, 0, "pose", 
                    ipc_bridge_matlab::geometry_msgs::PoseWithCovariance::ProcessMessage(msg.pose));
         mxSetField(out, 0, "twist", 
