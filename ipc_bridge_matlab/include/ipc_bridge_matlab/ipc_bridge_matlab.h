@@ -4,6 +4,8 @@
 #include <map>
 #include <list>
 
+#include <cstring>
+
 #include <ipc_bridge/ipc_bridge.h>
 
 #define SUCCESS 0

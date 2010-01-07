@@ -1,3 +1,7 @@
+%{
+#include <cstring>
+%}
+
 struct roslib_Header
 {
   unsigned int seq;

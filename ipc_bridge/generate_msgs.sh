@@ -1,5 +1,7 @@
 #!/bin/sh
 
+mkdir -p include/ipc_bridge/msgs
+
 for i in xdr/*xdr;
 do
     echo "Generating `basename $i xdr`h"
