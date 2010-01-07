@@ -34,6 +34,5 @@ rosbuild_add_executable(sensor_msgs_LaserScan_publisher src/sensor_msgs_LaserSca
 rosbuild_add_executable(asctec_HWCmd_subscriber src/asctec_HWCmd_subscriber.cc)
 rosbuild_add_executable(asctec_DMCmd_subscriber src/asctec_DMCmd_subscriber.cc)
 rosbuild_add_executable(vicon_Names_publisher src/vicon_Names_publisher.cc)
-rosbuild_add_executable(vicon_Names_subscriber src/vicon_Names_subscriber.cc)
 rosbuild_add_executable(vicon_Values_publisher src/vicon_Values_publisher.cc)
 
