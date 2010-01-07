@@ -1,0 +1,65 @@
+%{
+#include <cstring>
+#include <ipc_bridge/msgs/roslib_Header.h>
+%}
+
+ipc_type roslib_Header;
+
+struct vicon_Values
+{
+  roslib_Header header;
+  unsigned int values_length;
+  double values<>;  
+%{
+  vicon_Values() : values_length(0), values(0) {}
+  vicon_Values(const vicon_Values& msg) :
+    header(msg.header), values_length(msg.values_length)
+  {
+    if (values != 0)
+      delete[] values;
+
+    values = 0;
+    if (msg.values_length > 0)
+      {
+        values = new double[values_length];
+        memcpy((void*)values, (void*)msg.values, 
+               values_length*sizeof(double));
+      }
+  }
+  ~vicon_Values()
+  {
+    if (values != 0)
+      delete[] values;
+    values = 0;
+  }
+  vicon_Values& operator= (const vicon_Values& msg)
+  {
+    header = msg.header;
+    values_length = msg.values_length;
+
+    if (values != 0)
+      delete[] values;
+
+    values = 0;
+    if (msg.values_length > 0)
+      {
+        values = new double[values_length];
+        memcpy((void*)values, (void*)msg.values, 
+               values_length*sizeof(double));
+      }
+
+    return *this;
+  }
+%}
+      
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace vicon
+    {
+        typedef vicon_Values Values;
+    }
+}
+%}

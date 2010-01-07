@@ -13,6 +13,7 @@
   <depend package="ipc_bridge"/>
   <depend package="sensor_msgs"/>
   <depend package="asctec"/>
+  <depend package="vicon"/>
 
 </package>
 
