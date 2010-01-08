@@ -12,7 +12,7 @@ ipc_bridge::asctec::HWCmd cmd_msg;
 ros::Publisher pub;
 asctec::HWCmd out_msg;
 
-void callback(const ipc_bridge::asctec::HWCmd &msg, void* user_ptr)
+void callback(const ipc_bridge::asctec::HWCmd &msg)
 { 
   out_msg.thrust = msg.thrust;
   out_msg.roll = msg.roll;

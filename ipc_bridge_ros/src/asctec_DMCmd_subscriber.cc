@@ -12,7 +12,7 @@ ipc_bridge::asctec::DMCmd cmd_msg;
 ros::Publisher pub;
 asctec::DMCmd out_msg;
 
-void callback(const ipc_bridge::asctec::DMCmd &msg, void* user_ptr)
+void callback(const ipc_bridge::asctec::DMCmd &msg)
 { 
   out_msg.u1 = msg.u1;
   out_msg.u2 = msg.u2;

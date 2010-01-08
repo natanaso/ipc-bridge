@@ -5,6 +5,7 @@
 #include <list>
 
 #include <cstring>
+#include <cmath>
 
 #include <ipc_bridge/ipc_bridge.h>
 
@@ -19,6 +20,13 @@
 
 namespace ipc_bridge_matlab
 { 
+  template <typename T>
+    struct MessageData
+    {
+      T* message;
+      double message_time;
+    };
+  
   static int GetDoubleArray(mxArray *in, const int length, double* out)
   {
     int nrows = mxGetM(in);
@@ -57,6 +65,7 @@ namespace ipc_bridge_matlab
               void (*cleanup_handler_)(T&))
     {
       id_counter = 0;
+      message_time = -1;
 
       message_handler = message_handler_;
       array_handler = array_handler_;
@@ -131,11 +140,13 @@ namespace ipc_bridge_matlab
       
       return ERROR_FAILED;
     }
-
-    static void MessageCallback(const T &msg_, void *user_ptr)
+    
+    typedef MessageData<T> message_data_t;
+    static void MessageCallback(const T &msg_, double time, void *user_ptr)
     {
-      T *msg = reinterpret_cast<T*>(user_ptr);
-      *msg = msg_;
+      message_data_t *m = reinterpret_cast<message_data_t*>(user_ptr);
+      *(m->message) = msg_;
+      m->message_time = time;
 
       return;
     }
@@ -198,7 +209,14 @@ namespace ipc_bridge_matlab
       if (subscribers.count(id) > 0)
         {
           subscribers[id]->ListenClear(timeout);
-          plhs[0] = message_handler(*(msgs[id]));         
+
+          if (fabs(msgs[id]->message_time - message_time) > 1e-6)
+            {
+              plhs[0] = message_handler(*(msgs[id]->message));
+              message_time = msgs[id]->message_time;
+            }
+          else
+            plhs[0] = mxCreateCellMatrix(1, 0);
 
           return NOOVERWRITE;
         }
@@ -237,7 +255,9 @@ namespace ipc_bridge_matlab
 
       if (type == std::string("subscriber"))
         {
-          msgs[id] = new T;
+          msgs[id] = new message_data_t;
+          msgs[id]->message = new T;
+          msgs[id]->message_time = -1;
           ipc_bridge::Subscriber<T> *sub = new ipc_bridge::Subscriber<T>(module_name, message_name,
                                                                          Interface::MessageCallback,
                                                                          (void*)(msgs[id]));
@@ -319,7 +339,7 @@ namespace ipc_bridge_matlab
     {
       typedef typename std::map<unsigned int, ipc_bridge::Subscriber<T>*>::iterator s_iter;
       typedef typename std::map<unsigned int, ipc_bridge::Publisher<T>*>::iterator p_iter;
-      typedef typename std::map<unsigned int, T*>::iterator l_iter;
+      typedef typename std::map<unsigned int, message_data_t*>::iterator l_iter;
 
       for (s_iter i = subscribers.begin(); i != subscribers.end(); ++i)
         delete (*i).second;
@@ -328,15 +348,18 @@ namespace ipc_bridge_matlab
       for (p_iter i = publishers.begin(); i != publishers.end(); ++i)
         delete (*i).second;
       publishers.clear();
+
+      // Do not clear out messages as matlab data may still reference it
     }
   private:
     std::map<unsigned int, ipc_bridge::Subscriber<T>*> subscribers;
     std::map<unsigned int, ipc_bridge::Publisher<T>*> publishers;
-    std::map<unsigned int, T*> msgs;
+    std::map<unsigned int, message_data_t*> msgs;
 
     T outgoing_msg;
 
     unsigned int id_counter;
+    double message_time;
 
     mxArray* (*message_handler)(const T&);
     int (*array_handler)(const mxArray*, T&);

@@ -154,19 +154,56 @@ namespace ipc_bridge
   public:
     Subscriber(const std::string& module_name, 
                const std::string& message_name_,
-               void (*callback_ptr_)(const T&, void*) = 0,
-               void *user_ptr_ = 0)
-    {
-      this->Initialize(module_name);
-      message_name = message_name_;
-      message_time = -1;
-      
-      callback_ptr = callback_ptr_;
-      user_ptr = user_ptr_;
-      
-      subscribed = false;
-    }
+               void (*callback_ptr_)(const T&) = 0)
+      {
+        this->Initialize(module_name);
+        message_name = message_name_;
+        message_time = -1;
+        
+        callback_ptr_1 = callback_ptr_;
+        callback_ptr_2 = 0;
+        callback_ptr_3 = 0;
 
+        user_ptr = 0;
+
+        subscribed = false;
+      }
+
+    Subscriber(const std::string& module_name, 
+               const std::string& message_name_,
+               void (*callback_ptr_)(const T&, double))
+      {
+        this->Initialize(module_name);
+        message_name = message_name_;
+        message_time = -1;
+
+        callback_ptr_1 = 0;
+        callback_ptr_2 = callback_ptr_;
+        callback_ptr_3 = 0;
+        
+        user_ptr = 0;
+        
+        subscribed = false;
+      }
+
+    Subscriber(const std::string& module_name, 
+               const std::string& message_name_,
+               void (*callback_ptr_)(const T&, double, void*),
+               void *user_ptr_)
+      {
+        this->Initialize(module_name);
+        message_name = message_name_;
+        message_time = -1;
+
+        callback_ptr_1 = 0;
+        callback_ptr_2 = 0;
+        callback_ptr_3 = callback_ptr_;       
+
+        user_ptr = user_ptr_;
+        
+        subscribed = false;
+      }
+    
     virtual ~Subscriber()
     {
       Disconnect();
@@ -205,18 +242,20 @@ namespace ipc_bridge
       this->BaseDisconnect();
     }
     
-    void Listen(unsigned int timeout_ms = 0)
+    int Listen(unsigned int timeout_ms = 0)
     {
-      IPC_listen(timeout_ms);
+      if (IPC_listen(timeout_ms) != IPC_Timeout)
+        return 0;
       
-      return;
+      return -1;
     }
 
-    void ListenClear(unsigned int timeout_ms = 0)
+    int ListenClear(unsigned int timeout_ms = 0)
     {
-      IPC_listenClear(timeout_ms);
+      if (IPC_listenClear(timeout_ms) != IPC_Timeout)
+        return 0;
       
-      return;
+      return -1;
     }
         
     double GetMessageTime()
@@ -232,8 +271,12 @@ namespace ipc_bridge
 
     void MessageCallback(T* d)
     {
-      if (callback_ptr != 0)
-        (*callback_ptr)((const T&)(*d), user_ptr);
+      if (callback_ptr_1 != 0)
+        (*callback_ptr_1)((const T&)(*d));
+      else if (callback_ptr_2 != 0)
+        (*callback_ptr_2)((const T&)(*d), message_time);
+      else if (callback_ptr_3 != 0)
+        (*callback_ptr_3)((const T&)(*d), message_time, user_ptr);
 
       return;
     }
@@ -243,12 +286,15 @@ namespace ipc_bridge
                             void* callData,
                             void* self)
     {
-      Subscriber* r = reinterpret_cast<Subscriber*>(self);       
+      Subscriber* r = reinterpret_cast<Subscriber*>(self);
+      r->SetMessageTime();
       r->MessageCallback(reinterpret_cast<T*>(callData));
       IPC_freeData(IPC_msgInstanceFormatter(msgInstance), callData);
     }
 
-    void (*callback_ptr)(const T&, void*);
+    void (*callback_ptr_1)(const T&);
+    void (*callback_ptr_2)(const T&, double);
+    void (*callback_ptr_3)(const T&, double, void*);
     void *user_ptr;
 
     double message_time;
