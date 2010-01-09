@@ -1,0 +1,50 @@
+%{
+#include <cstring>
+#include <ipc_bridge/msgs/geometry_msgs_Pose.h>
+%}
+
+ipc_type geometry_msgs_Pose;
+
+struct vicon_Subject
+{
+  string name<>;
+  geometry_msgs_Pose pose;        
+%{
+  vicon_Subject() : name(0) {}
+  vicon_Subject(const vicon_Subject& msg) :
+    pose(msg.pose)
+  {
+    name = new char[strlen(msg.name) + 1];
+    strcpy(name, msg.name);
+  }
+  ~vicon_Subject()
+  {
+    if (name != 0)
+      delete[] name;
+    name = 0;
+  }
+  vicon_Subject& operator= (const vicon_Subject& msg)
+  {
+    pose = msg.pose;
+
+    if (name != 0)
+      delete[] name;
+
+    name = new char[strlen(msg.name) + 1];
+    strcpy(name, msg.name);
+
+    return *this;
+  }
+%}
+      
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace vicon
+    {
+        typedef vicon_Subject Subject;
+    }
+}
+%}

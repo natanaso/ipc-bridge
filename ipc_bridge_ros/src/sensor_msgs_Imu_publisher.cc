@@ -9,11 +9,23 @@ using namespace std;
 ipc_bridge::Publisher<ipc_bridge::sensor_msgs::Imu> *imu;
 ipc_bridge::sensor_msgs::Imu imu_msg;
 
+int prior_size = 0;
+
 void callback(const sensor_msgs::Imu::ConstPtr &msg)
 { 
   imu_msg.header.seq = msg->header.seq;
   imu_msg.header.stamp = msg->header.stamp.toSec();
-  imu_msg.header.frame_id = (char*)(msg->header.frame_id.c_str());
+
+  if (strlen(msg->header.frame_id.c_str()) != prior_size)
+    {
+      if (imu_msg.header.frame_id != 0)
+        delete[] imu_msg.header.frame_id;
+
+      imu_msg.header.frame_id = 
+        new char[strlen(msg->header.frame_id.c_str()) + 1];
+      strcpy(imu_msg.header.frame_id, msg->header.frame_id.c_str());
+      prior_size = strlen(msg->header.frame_id.c_str());
+    }
 
   imu_msg.orientation.x = msg->orientation.x;
   imu_msg.orientation.y = msg->orientation.y;
@@ -53,8 +65,9 @@ int main(int argc, char** argv)
 
   ros::Subscriber sub = n.subscribe("imu", 10, callback);
 
-  imu = new ipc_bridge::Publisher<ipc_bridge::sensor_msgs::Imu>(ros::this_node::getName(), 
-                                                                message_name);
+  imu = 
+    new ipc_bridge::Publisher<ipc_bridge::sensor_msgs::Imu>(ros::this_node::getName(), 
+                                                            message_name);
 
   if (imu->Connect() != 0)
     {

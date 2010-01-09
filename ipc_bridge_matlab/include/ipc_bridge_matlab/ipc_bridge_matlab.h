@@ -208,7 +208,7 @@ namespace ipc_bridge_matlab
 
       if (subscribers.count(id) > 0)
         {
-          subscribers[id]->ListenClear(timeout);
+          subscribers[id]->Listen(timeout);
 
           if (fabs(msgs[id]->message_time - message_time) > 1e-6)
             {
