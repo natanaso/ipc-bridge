@@ -4,7 +4,8 @@
 #include <string>
 #include <sys/time.h>
 
-#define MAX_QUEUE_LENGTH 100
+#define MAX_QUEUE_LENGTH 10
+#define IPC_CAPACITY 3
 
 namespace ipc_bridge
 {
@@ -45,6 +46,12 @@ namespace ipc_bridge
           return 0;
         }
 
+      if (IPC_setVerbosity(IPC_Silent) != IPC_OK)
+        {
+          printf("%s: Failed to set module verbosity level\n", module_name.c_str());
+          return -1;         
+        }
+
       if (IPC_connect((const char*)module_name.c_str()) != IPC_OK)
         {
           printf("%s: Failed to connect\n", module_name.c_str());
@@ -57,10 +64,10 @@ namespace ipc_bridge
           return -1;
         }
 
-      if (IPC_setVerbosity(IPC_Print_Errors) != IPC_OK)
+      if (IPC_setCapacity(IPC_CAPACITY) != IPC_OK)
         {
-          printf("%s: Failed to set module verbosity level\n", module_name.c_str());
-          return -1;         
+          printf("%s: Failed to set IPC capacity\n", module_name.c_str());
+          return -1;
         }
       
       connected = true;

@@ -9,7 +9,7 @@ using namespace std;
 ipc_bridge::Publisher<ipc_bridge::sensor_msgs::Imu> *imu;
 ipc_bridge::sensor_msgs::Imu imu_msg;
 
-int prior_size = 0;
+unsigned int prior_size = 0;
 
 void callback(const sensor_msgs::Imu::ConstPtr &msg)
 { 
