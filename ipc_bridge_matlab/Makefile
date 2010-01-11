@@ -1,4 +1,4 @@
-MEX = mex
+MEX = /Applications/MATLAB_R2009b.app/bin/mex
 IPC_BRIDGE_CPATH = ../ipc_bridge/include
 IPC_LD_LIBRARY_PATH = /opt/ipc/lib
 

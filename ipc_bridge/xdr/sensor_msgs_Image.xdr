@@ -1,0 +1,90 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+%}
+
+ipc_type roslib_Header;
+
+struct sensor_msgs_Image
+{
+ roslib_Header header;
+ unsigned int height;
+ unsigned int width;
+ string encoding<>;
+ unsigned char is_bigendian;
+ unsigned int step;
+ unsigned int data_length;
+ unsigned char data<>;
+%{
+  sensor_msgs_Image() :
+    height(0), width(0),
+    encoding(0), is_bigendian(0),
+    step(0), data_length(0), data(0) {}
+  sensor_msgs_Image(const sensor_msgs_Image &msg) :
+    header(msg.header),
+    height(msg.height), width(msg.width),
+    is_bigendian(msg.is_bigendian),
+    step(msg.step),
+    data_length(msg.data_length)
+  {
+    encoding = new char[strlen(msg.encoding) + 1];
+    strcpy(encoding, msg.encoding);
+
+    if (data != 0)
+      delete[] data;
+
+    data = 0;
+    if (msg.data_length > 0)
+      {
+        data = new unsigned char[data_length];
+        memcpy((void*)data, (void*)msg.data, data_length);
+      }
+  }
+  ~sensor_msgs_Image()
+  {
+    if (encoding != 0)
+      delete[] encoding;
+
+    if (data != 0)
+      delete[] data;
+    data = 0;
+  }
+  sensor_msgs_Image& operator= (const sensor_msgs_Image& msg)
+  {
+    header = msg.header;
+    height = msg.height;
+    width = msg.width;
+    is_bigendian = msg.is_bigendian;
+    step = msg.step;
+    data_length = msg.data_length;
+
+    if (encoding != 0)
+      delete[] encoding;
+
+    encoding = new char[strlen(msg.encoding) + 1];
+    strcpy(encoding, msg.encoding);
+
+    if (data != 0)
+      delete[] data;
+
+    data = 0;
+    if (msg.data_length > 0)
+      {
+        data = new unsigned char[data_length];
+        memcpy((void*)data, (void*)msg.data, data_length);
+      }
+
+    return *this;
+  } 
+%}
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace sensor_msgs
+    {
+        typedef sensor_msgs_Image Image;
+    }
+}
+%}
+

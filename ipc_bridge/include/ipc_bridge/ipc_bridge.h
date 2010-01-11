@@ -4,8 +4,8 @@
 #include <string>
 #include <sys/time.h>
 
-#define MAX_QUEUE_LENGTH 10
-#define IPC_CAPACITY 3
+#define MAX_QUEUE_LENGTH 1
+#define IPC_CAPACITY 1
 
 namespace ipc_bridge
 {

@@ -69,7 +69,7 @@ void callback(const sensor_msgs::LaserScan::ConstPtr &msg)
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "sensor_msgs_LaserScan");
+  ros::init(argc, argv, "sensor_msgs_LaserScan_publisher");
   ros::NodeHandle n("~");
 
   string message_name;

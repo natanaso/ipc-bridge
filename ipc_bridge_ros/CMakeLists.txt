@@ -37,4 +37,5 @@ rosbuild_add_executable(vicon_Names_publisher src/vicon_Names_publisher.cc)
 rosbuild_add_executable(vicon_Values_publisher src/vicon_Values_publisher.cc)
 rosbuild_add_executable(vicon_Subject_subscriber src/vicon_Subject_subscriber.cc)
 rosbuild_add_executable(geometry_msgs_Pose_subscriber src/geometry_msgs_Pose_subscriber.cc)
+rosbuild_add_executable(sensor_msgs_Image_publisher src/sensor_msgs_Image_publisher.cc)
 
