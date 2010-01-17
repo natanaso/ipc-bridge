@@ -38,4 +38,13 @@ rosbuild_add_executable(vicon_Values_publisher src/vicon_Values_publisher.cc)
 rosbuild_add_executable(vicon_Subject_subscriber src/vicon_Subject_subscriber.cc)
 rosbuild_add_executable(geometry_msgs_Pose_subscriber src/geometry_msgs_Pose_subscriber.cc)
 rosbuild_add_executable(sensor_msgs_Image_publisher src/sensor_msgs_Image_publisher.cc)
+rosbuild_add_executable(tf_tfMessage_subscriber src/tf_tfMessage_subscriber.cc)
+rosbuild_add_executable(tf_tfMessage_publisher src/tf_tfMessage_publisher.cc)
 
+rosbuild_add_executable(geometry_msgs_PoseWithCovariance_subscriber
+                                        src/geometry_msgs_PoseWithCovariance_subscriber.cc)     
+rosbuild_add_executable(geometry_msgs_PoseWithCovariance_publisher 
+                                        src/geometry_msgs_PoseWithCovariance_publisher.cc)
+
+rosbuild_add_executable(nav_msgs_Odometry_publisher 
+                                        src/nav_msgs_Odometry_publisher.cc)

@@ -12,8 +12,10 @@
   <depend package="roscpp"/>
   <depend package="ipc_bridge"/>
   <depend package="sensor_msgs"/>
+  <depend package="nav_msgs"/>
   <depend package="asctec"/>
   <depend package="vicon"/>
+  <depend package="tf"/>
 
 </package>
 

@@ -11,6 +11,34 @@ struct geometry_msgs_TransformStamped
  roslib_Header header;
  string child_frame_id<>;
  geometry_msgs_Transform transform;
+
+%{
+  geometry_msgs_TransformStamped() : child_frame_id(0) {}
+  geometry_msgs_TransformStamped(const geometry_msgs_TransformStamped& msg) :
+    header(msg.header), transform(msg.transform)
+  {
+    child_frame_id = new char[strlen(msg.child_frame_id) + 1];
+    strcpy(child_frame_id, msg.child_frame_id);
+  }
+  ~geometry_msgs_TransformStamped()
+  {
+    if (child_frame_id != 0)
+      delete[] child_frame_id;
+  }
+  geometry_msgs_TransformStamped& operator= (const geometry_msgs_TransformStamped& msg)
+  {
+    header = msg.header;
+    transform = msg.transform;
+
+    if (child_frame_id != 0)
+      delete[] child_frame_id;
+
+    child_frame_id = new char[strlen(msg.child_frame_id) + 1];
+    strcpy(child_frame_id, msg.child_frame_id);
+
+    return *this;
+  }
+%}
 };
 
 %{

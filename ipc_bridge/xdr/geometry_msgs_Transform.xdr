@@ -10,6 +10,24 @@ struct geometry_msgs_Transform
 {
  geometry_msgs_Vector3 translation;
  geometry_msgs_Quaternion rotation;
+
+%{
+  geometry_msgs_Transform() {}
+  geometry_msgs_Transform(const geometry_msgs_Transform& msg) :
+    translation(msg.translation), rotation(msg.rotation)
+  {
+  }
+  ~geometry_msgs_Transform()
+  {
+  }
+  geometry_msgs_Transform& operator= (const geometry_msgs_Transform& msg)
+  {
+    translation = msg.translation;
+    rotation = msg.rotation;
+
+    return *this;
+  }
+%}        
 };
 
 %{

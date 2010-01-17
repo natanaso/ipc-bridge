@@ -33,10 +33,14 @@ int main(int argc, char** argv)
   string message_name;
   n.param("message", message_name, string("pose"));
 
+  string server_name;
+  n.param("server", server_name, string("localhost"));
+
   pub = n.advertise<geometry_msgs::Pose>("pose", 100);
   
   g = new ipc_bridge::Subscriber<ipc_bridge::geometry_msgs::Pose>(ros::this_node::getName(), 
                                                                   message_name,
+                                                                  server_name,
                                                                   callback);
 
   if (g->Connect() != 0)

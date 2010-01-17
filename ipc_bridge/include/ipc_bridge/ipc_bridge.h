@@ -36,6 +36,14 @@ namespace ipc_bridge
     void Initialize(const std::string& module_name_)
     {
       module_name = module_name_;
+      server_name = std::string("localhost");
+    }
+
+    void Initialize(const std::string& module_name_,
+                    const std::string& server_name_)
+    {
+      module_name = module_name_;
+      server_name = server_name_;
     }
     
     int BaseConnect()
@@ -52,7 +60,8 @@ namespace ipc_bridge
           return -1;         
         }
 
-      if (IPC_connect((const char*)module_name.c_str()) != IPC_OK)
+      if (IPC_connectModule((const char*)module_name.c_str(),
+                            (const char*)server_name.c_str()) != IPC_OK)
         {
           printf("%s: Failed to connect\n", module_name.c_str());
           return -1;
@@ -92,6 +101,7 @@ namespace ipc_bridge
     
   private:
     std::string module_name;
+    std::string server_name;
     
     bool connected;
   };
@@ -104,6 +114,14 @@ namespace ipc_bridge
               const std::string& message_name_)
     {
       this->Initialize(module_name);
+      message_name = message_name_;
+    }
+
+    Publisher(const std::string& module_name, 
+              const std::string& message_name_,
+              const std::string& server_name)
+    {
+      this->Initialize(module_name, server_name);
       message_name = message_name_;
     }
 
@@ -164,6 +182,24 @@ namespace ipc_bridge
                void (*callback_ptr_)(const T&) = 0)
       {
         this->Initialize(module_name);
+        message_name = message_name_;
+        message_time = -1;
+        
+        callback_ptr_1 = callback_ptr_;
+        callback_ptr_2 = 0;
+        callback_ptr_3 = 0;
+
+        user_ptr = 0;
+
+        subscribed = false;
+      }
+
+    Subscriber(const std::string& module_name, 
+               const std::string& message_name_,
+               const std::string& server_name,
+               void (*callback_ptr_)(const T&) = 0)
+      {
+        this->Initialize(module_name, server_name);
         message_name = message_name_;
         message_time = -1;
         
