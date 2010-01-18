@@ -1,0 +1,22 @@
+struct asctec_PDCmd
+{
+ float thrust;
+ float roll;
+ float pitch;
+ float yaw_delta;
+ float kp_roll;
+ float kd_roll;
+ float kp_pitch;
+ float kd_pitch;
+ float kd_yaw;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace asctec
+    {
+        typedef asctec_PDCmd PDCmd;
+    }
+}
+%}

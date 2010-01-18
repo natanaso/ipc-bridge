@@ -31,7 +31,9 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 rosbuild_add_executable(sensor_msgs_Imu_publisher src/sensor_msgs_Imu_publisher.cc)
 rosbuild_add_executable(sensor_msgs_LaserScan_publisher src/sensor_msgs_LaserScan_publisher.cc)
-rosbuild_add_executable(asctec_HWCmd_subscriber src/asctec_HWCmd_subscriber.cc)
+rosbuild_add_executable(asctec_HWCmd_subscriber
+src/asctec_HWCmd_subscriber.cc)
+rosbuild_add_executable(asctec_PDCmd_subscriber src/asctec_PDCmd_subscriber.cc)
 rosbuild_add_executable(asctec_DMCmd_subscriber src/asctec_DMCmd_subscriber.cc)
 rosbuild_add_executable(vicon_Names_publisher src/vicon_Names_publisher.cc)
 rosbuild_add_executable(vicon_Values_publisher src/vicon_Values_publisher.cc)
