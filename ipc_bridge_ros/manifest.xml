@@ -16,6 +16,7 @@
   <depend package="asctec"/>
   <depend package="vicon"/>
   <depend package="tf"/>
+  <depend package="move_base_msgs"/>
 
 </package>
 

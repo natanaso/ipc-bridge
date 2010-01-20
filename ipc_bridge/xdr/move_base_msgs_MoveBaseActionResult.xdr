@@ -1,0 +1,27 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/actionlib_msgs_GoalStatus.h>
+#include <ipc_bridge/msgs/move_base_msgs_MoveBaseResult.h>
+%}
+
+ipc_type roslib_Header;
+ipc_type actionlib_msgs_GoalStatus;
+ipc_type move_base_msgs_MoveBaseResult;
+
+struct move_base_msgs_MoveBaseActionResult
+{
+  roslib_Header header;
+  actionlib_msgs_GoalStatus status;
+  move_base_msgs_MoveBaseResult result;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace move_base_msgs
+    {
+        typedef move_base_msgs_MoveBaseActionResult MoveBaseActionResult;
+    }
+}
+%}
+

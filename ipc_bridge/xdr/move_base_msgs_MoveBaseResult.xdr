@@ -1,0 +1,14 @@
+struct move_base_msgs_MoveBaseResult
+{
+  unsigned char null;        
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace move_base_msgs
+    {
+        typedef move_base_msgs_MoveBaseResult MoveBaseResult;
+    }
+}
+%}

@@ -1,0 +1,20 @@
+%{
+#include <ipc_bridge/msgs/geometry_msgs_PoseStamped.h>
+%}
+
+ipc_type geometry_msgs_PoseStamped;
+
+struct move_base_msgs_MoveBaseFeedback
+{
+  geometry_msgs_PoseStamped base_position;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace move_base_msgs
+    {
+        typedef move_base_msgs_MoveBaseFeedback MoveBaseFeedback;
+    }
+}
+%}

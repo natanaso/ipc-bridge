@@ -1,0 +1,24 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/mesh80211s_MeshStation.h>
+%}
+
+ipc_type roslib_Header;
+ipc_type mesh80211s_MeshStation;
+
+struct mesh80211s_MeshStations
+{
+  roslib_Header header;
+  unsigned int stations_length;
+  mesh80211s_MeshStation stations<>;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace mesh80211s
+    {
+        typedef mesh80211s_MeshStations MeshStations;
+    }
+}
+%}
