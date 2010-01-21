@@ -47,6 +47,11 @@ rosbuild_add_executable(geometry_msgs_PoseWithCovariance_subscriber
 rosbuild_add_executable(geometry_msgs_PoseWithCovariance_publisher 
                                         src/geometry_msgs_PoseWithCovariance_publisher.cc)
 
+rosbuild_add_executable(geometry_msgs_PoseStamped_subscriber
+                                        src/geometry_msgs_PoseStamped_subscriber.cc)     
+rosbuild_add_executable(geometry_msgs_PoseStamped_publisher 
+                                        src/geometry_msgs_PoseStamped_publisher.cc)
+
 rosbuild_add_executable(nav_msgs_Odometry_publisher src/nav_msgs_Odometry_publisher.cc)
 
 rosbuild_add_executable(move_base_msgs_MoveBaseActionGoal_publisher
