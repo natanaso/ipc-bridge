@@ -1,0 +1,100 @@
+%{
+#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/geometry_msgs_Point32.h>
+#include <ipc_bridge/msgs/sensor_msgs_ChannelFloat32.h>
+%}
+
+ipc_type roslib_Header;
+ipc_type geometry_msgs_Point32;
+ipc_type sensor_msgs_ChannelFloat32;
+
+struct sensor_msgs_PointCloud
+{
+ roslib_Header header;
+ unsigned int points_length;
+ geometry_msgs_Point32 points<>;
+ unsigned int channels_length;
+ sensor_msgs_ChannelFloat32 channels<>;
+%{
+  sensor_msgs_PointCloud() :
+    points_length(0), points(0), channels_length(0), channels(0) {}
+  sensor_msgs_PointCloud(const sensor_msgs_PointCloud &msg) :
+    header(msg.header),
+    points_length(msg.points_length), 
+    channels_length(msg.channels_length)
+  {
+    if (points != 0)
+      delete[] points;
+
+    points = 0;
+    if (msg.points_length > 0)
+      {
+        points = new geometry_msgs_Point32[msg.points_length];
+        memcpy((void*)points, (void*)msg.points, 
+               msg.points_length*sizeof(geometry_msgs_Point32));
+      }
+
+    if (channels != 0)
+      delete[] channels;
+
+    channels = 0;
+    if (msg.channels_length > 0)
+      {
+        channels = new sensor_msgs_ChannelFloat32[msg.channels_length];
+        memcpy((void*)channels, (void*)msg.channels, 
+               msg.channels_length*sizeof(sensor_msgs_ChannelFloat32));
+      }
+  }
+  ~sensor_msgs_PointCloud()
+  {
+    if (points != 0)
+      delete[] points;
+    points = 0;
+
+    if (channels != 0)
+      delete[] channels;
+    channels = 0;
+  }
+  sensor_msgs_PointCloud& operator= (const sensor_msgs_PointCloud& msg)
+  {
+    header = msg.header;
+    points_length = msg.points_length;
+    channels_length = msg.channels_length;
+
+    if (points != 0)
+      delete[] points;
+
+    points = 0;
+    if (msg.points_length > 0)
+      {
+        points = new geometry_msgs_Point32[msg.points_length];
+        memcpy((void*)points, (void*)msg.points, 
+               msg.points_length*sizeof(geometry_msgs_Point32));
+      }
+
+    if (channels != 0)
+      delete[] channels;
+
+    channels = 0;
+    if (msg.channels_length > 0)
+      {
+        channels = new sensor_msgs_ChannelFloat32[msg.channels_length];
+        memcpy((void*)channels, (void*)msg.channels, 
+               msg.channels_length*sizeof(sensor_msgs_ChannelFloat32));
+      }
+
+    return *this;
+  } 
+%}
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace sensor_msgs
+    {
+        typedef sensor_msgs_PointCloud PointCloud;
+    }
+}
+%}
+

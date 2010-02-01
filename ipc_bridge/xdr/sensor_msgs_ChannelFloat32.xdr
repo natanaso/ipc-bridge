@@ -1,0 +1,73 @@
+%{
+#include <cstring>
+%}
+
+struct sensor_msgs_ChannelFloat32
+{
+  string name<>;
+  unsigned int values_length;
+  float values<>;
+%{
+  sensor_msgs_ChannelFloat32() : name(0), values(0) {}
+  sensor_msgs_ChannelFloat32(const sensor_msgs_ChannelFloat32 &msg) :
+    values_length(msg.values_length)
+  {
+    name = new char[strlen(msg.name) + 1];
+    strcpy(name, msg.name);
+
+    if (values != 0)
+      delete[] values;
+
+    values = 0;
+    if (msg.values_length > 0)
+      {
+        values = new float[values_length];
+        memcpy((void*)values, (void*)msg.values, 
+               values_length*sizeof(float));
+      }
+  }
+  ~sensor_msgs_ChannelFloat32()
+  {
+    if (name != 0)
+      delete[] name;
+
+    if (values != 0)
+      delete[] values;
+    values = 0;
+  }
+  sensor_msgs_ChannelFloat32& operator= (const sensor_msgs_ChannelFloat32& msg)
+  {
+    if (name != 0)
+      delete[] name;
+
+    name = new char[strlen(msg.name) + 1];
+    strcpy(name, msg.name);
+
+    values_length = msg.values_length;
+
+    if (values != 0)
+      delete[] values;
+
+    values = 0;
+    if (msg.values_length > 0)
+      {
+        values = new float[values_length];
+        memcpy((void*)values, (void*)msg.values, 
+               values_length*sizeof(float));
+      }
+
+    return *this;
+  } 
+%}
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace sensor_msgs
+    {
+        typedef sensor_msgs_ChannelFloat32 ChannelFloat32;
+    }
+}
+%}
+

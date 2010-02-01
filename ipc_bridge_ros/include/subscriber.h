@@ -1,6 +1,9 @@
+#define STR_EXPAND(tok) #tok
+#define STR(tok) STR_EXPAND(tok)
+
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "NAMESPACE_NAME_subscriber");
+  ros::init(argc, argv, STR(NAMESPACE)"_"STR(NAME)"_subscriber");
   ros::NodeHandle n("~");
 
   std::string message_name;

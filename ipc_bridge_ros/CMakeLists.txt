@@ -74,3 +74,6 @@ rosbuild_add_executable(actionlib_msgs_GoalStatusArray_publisher
 rosbuild_add_executable(actionlib_msgs_GoalStatusArray_subscriber
         src/actionlib_msgs_GoalStatusArray_subscriber.cc)
 
+rosbuild_add_executable(sensor_msgs_PointCloud_subscriber
+        src/sensor_msgs_PointCloud_subscriber.cc)
+

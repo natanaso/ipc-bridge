@@ -1,0 +1,17 @@
+struct geometry_msgs_Point32
+{
+ float x;
+ float y;
+ float z; 
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace geometry_msgs
+    {
+        typedef geometry_msgs_Point32 Point32;
+    }
+}
+%}
+
