@@ -36,7 +36,7 @@ struct geometry_msgs_PoseArray
   geometry_msgs_PoseArray& operator= (const geometry_msgs_PoseArray& msg)
   {
     header = msg.header;
-    poses_length = msgs.poses_length;
+    poses_length = msg.poses_length;
     
     if (poses != 0)
       delete[] poses;
