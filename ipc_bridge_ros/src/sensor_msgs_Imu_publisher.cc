@@ -13,7 +13,7 @@ ipc_bridge::NAMESPACE::NAME out_msg;
 unsigned int prior_size = 0;
 
 void callback(const NAMESPACE::NAME::ConstPtr &msg)
-{  
+{
   out_msg.header.seq = msg->header.seq;
   out_msg.header.stamp = msg->header.stamp.toSec();
 
@@ -52,8 +52,8 @@ void callback(const NAMESPACE::NAME::ConstPtr &msg)
   std::copy(msg->linear_acceleration_covariance.begin(),
             msg->linear_acceleration_covariance.end(),
             out_msg.linear_acceleration_covariance);
-  
-  p->Publish(out_msg);   
+
+  p->Publish(out_msg);
 }
 
 #include "publisher.h"

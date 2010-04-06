@@ -11,13 +11,10 @@ ipc_type geometry_msgs_Vector3;
 struct sensor_msgs_Imu
 {
  roslib_Header header;
-
  geometry_msgs_Quaternion orientation;
  double orientation_covariance[9];
-
  geometry_msgs_Vector3 angular_velocity;
  double angular_velocity_covariance[9];
-
  geometry_msgs_Vector3 linear_acceleration;
  double linear_acceleration_covariance[9];
 };

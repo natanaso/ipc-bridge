@@ -7,7 +7,7 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 #  Release        : w/o debug symbols, w/ optimization
 #  RelWithDebInfo : w/ debug symbols, w/ optimization
 #  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-#set(ROS_BUILD_TYPE RelWithDebInfo)
+set(ROS_BUILD_TYPE Debug)
 
 rosbuild_init()
 
@@ -37,7 +37,13 @@ rosbuild_add_executable(asctec_DMCmd_subscriber src/asctec_DMCmd_subscriber.cc)
 rosbuild_add_executable(vicon_Names_publisher src/vicon_Names_publisher.cc)
 rosbuild_add_executable(vicon_Values_publisher src/vicon_Values_publisher.cc)
 rosbuild_add_executable(vicon_Subject_subscriber src/vicon_Subject_subscriber.cc)
-rosbuild_add_executable(geometry_msgs_Pose_subscriber src/geometry_msgs_Pose_subscriber.cc)
+rosbuild_add_executable(geometry_msgs_Pose_subscriber 
+                                        src/geometry_msgs_Pose_subscriber.cc)
+rosbuild_add_executable(geometry_msgs_Pose_publisher 
+                                        src/geometry_msgs_Pose_publisher.cc)
+rosbuild_add_executable(geometry_msgs_PoseArray_publisher 
+                                        src/geometry_msgs_PoseArray_publisher.cc)
+
 rosbuild_add_executable(sensor_msgs_Image_publisher src/sensor_msgs_Image_publisher.cc)
 rosbuild_add_executable(tf_tfMessage_subscriber src/tf_tfMessage_subscriber.cc)
 rosbuild_add_executable(tf_tfMessage_publisher src/tf_tfMessage_publisher.cc)
@@ -81,4 +87,3 @@ rosbuild_add_executable(actionlib_msgs_GoalStatusArray_subscriber
 
 rosbuild_add_executable(sensor_msgs_PointCloud_subscriber
         src/sensor_msgs_PointCloud_subscriber.cc)
-
