@@ -1,5 +1,5 @@
-MEX = /Applications/MATLAB_R2009b.app/bin/mex
-IPC_BRIDGE_CPATH = ../ipc_bridge/include
+MEX = /Applications/MATLAB_R2010a.app/bin/mex
+IPC_BRIDGE_CPATH = $(shell rospack find ipc_bridge)/include
 IPC_LD_LIBRARY_PATH = /opt/ipc/lib
 
 MEX_FILES := $(patsubst src/%.cc,%,$(wildcard src/*.cc))

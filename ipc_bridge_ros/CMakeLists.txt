@@ -45,6 +45,8 @@ rosbuild_add_executable(geometry_msgs_Pose_publisher
                                         src/geometry_msgs_Pose_publisher.cc)
 rosbuild_add_executable(geometry_msgs_PoseArray_publisher 
                                         src/geometry_msgs_PoseArray_publisher.cc)
+rosbuild_add_executable(geometry_msgs_Twist_subscriber 
+                                        src/geometry_msgs_Twist_subscriber.cc)
 
 rosbuild_add_executable(sensor_msgs_Image_publisher src/sensor_msgs_Image_publisher.cc)
 rosbuild_add_executable(tf_tfMessage_subscriber src/tf_tfMessage_subscriber.cc)
@@ -89,3 +91,6 @@ rosbuild_add_executable(actionlib_msgs_GoalStatusArray_subscriber
 
 rosbuild_add_executable(sensor_msgs_PointCloud_subscriber
         src/sensor_msgs_PointCloud_subscriber.cc)
+
+rosbuild_add_executable(odometry_aggregator_OdometryArray_publisher
+        src/odometry_aggregator_OdometryArray_publisher.cc)
