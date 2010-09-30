@@ -1,0 +1,14 @@
+<package>
+  <description brief="ipc_bridge_local">
+
+     ipc_bridge_local
+
+  </description>
+  <author>Nathan Michael</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ipc_bridge_local</url>
+
+</package>
+
+

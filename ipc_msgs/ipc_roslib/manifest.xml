@@ -1,15 +1,13 @@
 <package>
-  <description brief="ipc_bridge_matlab">
+  <description brief="ipc_roslib">
 
-     ipc_bridge_matlab
+     ipc_roslib
 
   </description>
   <author>Nathan Michael</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/ipc_bridge_matlab</url>
-
-  <depend package="ipc_bridge"/>
+  <url>http://ros.org/wiki/ipc_roslib</url>
 
   <export>
     <cpp cflags="-I${prefix}/include"/>

@@ -1,0 +1,1 @@
+PKG_CXXFLAGS += $(foreach path, $(shell rospack cflags-only-I ipc_geometry_msgs), -I$(path))

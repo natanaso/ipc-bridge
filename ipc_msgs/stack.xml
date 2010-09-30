@@ -1,0 +1,9 @@
+<stack>
+  <description brief="ipc_msgs">ipc_msgs</description>
+  <author>Maintained by Nathan Michael</author>
+  <license>BSD</license>  
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ipc_msgs</url>
+  <depend stack="ros" />
+
+</stack>

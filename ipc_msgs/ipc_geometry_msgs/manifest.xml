@@ -1,15 +1,13 @@
 <package>
-  <description brief="ipc_bridge_matlab">
+  <description brief="ipc_geometry_msgs">
 
-     ipc_bridge_matlab
+     ipc_geometry_msgs
 
   </description>
   <author>Nathan Michael</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/ipc_bridge_matlab</url>
-
-  <depend package="ipc_bridge"/>
+  <url>http://ros.org/wiki/ipc_geometry_msgs</url>
 
   <export>
     <cpp cflags="-I${prefix}/include"/>
