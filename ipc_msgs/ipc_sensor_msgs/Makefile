@@ -1,6 +1,6 @@
 PKG= ipc_sensor_msgs
 MEX_MSGS= ChannelFloat32 LaserScan Image PointCloud Imu
-ROS_MSGS= 
+ROS_MSGS= Image Imu LaserScan PointCloud
 
 MEX_FILES := $(foreach msg, $(MEX_MSGS), sensor_msgs_$(msg))
 ROS_FILES := $(foreach msg, $(ROS_MSGS), sensor_msgs_$(msg)_publisher)

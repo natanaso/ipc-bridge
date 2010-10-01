@@ -1,6 +1,6 @@
 PKG= ipc_nav_msgs
 MEX_MSGS= GridCells MapMetaData OccupancyGrid Odometry Path
-ROS_MSGS= 
+ROS_MSGS= Odometry
 
 MEX_FILES := $(foreach msg, $(MEX_MSGS), nav_msgs_$(msg))
 ROS_FILES := $(foreach msg, $(ROS_MSGS), nav_msgs_$(msg)_publisher)
