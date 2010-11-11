@@ -1,0 +1,14 @@
+struct std_msgs_Bool
+{
+   unsigned int data;
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace std_msgs
+    {
+        typedef std_msgs_Bool Bool;
+    }
+}
+%}
