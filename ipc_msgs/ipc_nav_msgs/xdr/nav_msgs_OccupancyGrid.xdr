@@ -1,14 +1,14 @@
 %{
-#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/rosgraph_msgs_Header.h>
 #include <ipc_bridge/msgs/nav_msgs_MapMetaData.h>
 %}
 
-ipc_type roslib_Header;
+ipc_type rosgraph_msgs_Header;
 ipc_type nav_msgs_MapMetaData;
 
 struct nav_msgs_OccupancyGrid
 {
- roslib_Header header;
+ rosgraph_msgs_Header header;
  nav_msgs_MapMetaData info;
  unsigned int data_length;
  char data<>;

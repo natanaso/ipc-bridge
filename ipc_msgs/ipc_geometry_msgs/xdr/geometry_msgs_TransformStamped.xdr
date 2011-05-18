@@ -1,14 +1,14 @@
 %{
-#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/rosgraph_msgs_Header.h>
 #include <ipc_bridge/msgs/geometry_msgs_Transform.h>
 %}
 
-ipc_type roslib_Header;
+ipc_type rosgraph_msgs_Header;
 ipc_type geometry_msgs_Transform;
 
 struct geometry_msgs_TransformStamped
 {
- roslib_Header header;
+ rosgraph_msgs_Header header;
  string child_frame_id<>;
  geometry_msgs_Transform transform;
 

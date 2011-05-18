@@ -1,14 +1,14 @@
 %{
-#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/rosgraph_msgs_Header.h>
 #include <ipc_bridge/msgs/geometry_msgs_PoseWithCovariance.h>
 %}
 
-ipc_type roslib_Header;
+ipc_type rosgraph_msgs_Header;
 ipc_type geometry_msgs_PoseWithCovariance;
 
 struct geometry_msgs_PoseWithCovarianceStamped
 {
- roslib_Header header;
+ rosgraph_msgs_Header header;
  geometry_msgs_PoseWithCovariance pose;
 };
 

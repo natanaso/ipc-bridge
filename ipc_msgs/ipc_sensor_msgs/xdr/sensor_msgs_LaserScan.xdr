@@ -1,12 +1,12 @@
 %{
-#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/rosgraph_msgs_Header.h>
 %}
 
-ipc_type roslib_Header;
+ipc_type rosgraph_msgs_Header;
 
 struct sensor_msgs_LaserScan
 {
- roslib_Header header;
+ rosgraph_msgs_Header header;
  float angle_min;
  float angle_max;
  float angle_increment;
@@ -41,7 +41,7 @@ struct sensor_msgs_LaserScan
     if (msg.ranges_length > 0)
       {
         ranges = new float[ranges_length];
-        memcpy((void*)ranges, (void*)msg.ranges, 
+        memcpy((void*)ranges, (void*)msg.ranges,
                ranges_length*sizeof(float));
       }
 
@@ -52,7 +52,7 @@ struct sensor_msgs_LaserScan
     if (intensities_length > 0)
       {
         intensities = new float[intensities_length];
-        memcpy((void*)intensities, (void*)msg.intensities, 
+        memcpy((void*)intensities, (void*)msg.intensities,
                intensities_length*sizeof(float));
       }
   }
@@ -85,7 +85,7 @@ struct sensor_msgs_LaserScan
     if (msg.ranges_length > 0)
       {
         ranges = new float[ranges_length];
-        memcpy((void*)ranges, (void*)msg.ranges, 
+        memcpy((void*)ranges, (void*)msg.ranges,
                ranges_length*sizeof(float));
       }
 
@@ -96,12 +96,12 @@ struct sensor_msgs_LaserScan
     if (intensities_length > 0)
       {
         intensities = new float[intensities_length];
-        memcpy((void*)intensities, (void*)msg.intensities, 
+        memcpy((void*)intensities, (void*)msg.intensities,
                intensities_length*sizeof(float));
       }
 
     return *this;
-  } 
+  }
 %}
 };
 

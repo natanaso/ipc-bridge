@@ -3,7 +3,7 @@
 #include <ipc_bridge_matlab/ipc_bridge_matlab.h>
 #include <ipc_bridge/msgs/nav_msgs_Path.h>
 
-#include <roslib_Header.h>
+#include <rosgraph_msgs_Header.h>
 #include <geometry_msgs_PoseStamped.h>
 
 namespace ipc_bridge_matlab
@@ -14,25 +14,25 @@ namespace ipc_bridge_matlab
     {
       static mxArray* ProcessMessage(const ipc_bridge::nav_msgs::Path &msg)
       {
-        const char *fields[] = {"header", 
-                                "poses"}; 
+        const char *fields[] = {"header",
+                                "poses"};
         const int nfields = sizeof(fields)/sizeof(*fields);
         mxArray *out = mxCreateStructMatrix(1, 1, nfields, fields);
 
-        mxSetField(out, 0, "header", 
+        mxSetField(out, 0, "header",
                    ipc_bridge_matlab::Header::ProcessMessage(msg.header));
 
-        const int length = msg.poses_length;      
+        const int length = msg.poses_length;
         mxArray *poses = mxCreateCellArray(1, &length);
         for (unsigned int i = 0; i < length; i++)
-          mxSetCell(poses, i, 
+          mxSetCell(poses, i,
                     ipc_bridge_matlab::geometry_msgs::PoseStamped::ProcessMessage(msg.poses[i]));
         mxSetField(out, 0, "poses", poses);
 
         return out;
       }
-      
-      static int ProcessArray(const mxArray *a, 
+
+      static int ProcessArray(const mxArray *a,
                               ipc_bridge::nav_msgs::Path &msg)
       {
         mxArray *field;

@@ -3,7 +3,7 @@
 #include <ipc_bridge_matlab/ipc_bridge_matlab.h>
 #include <ipc_bridge/msgs/geometry_msgs_TransformStamped.h>
 
-#include <roslib_Header.h>
+#include <rosgraph_msgs_Header.h>
 #include <geometry_msgs_Transform.h>
 
 namespace ipc_bridge_matlab
@@ -17,8 +17,8 @@ namespace ipc_bridge_matlab
         const char *fields[] = {"header", "child_frame_id", "transform"};
         const int nfields = sizeof(fields)/sizeof(*fields);
         mxArray *out = mxCreateStructMatrix(1, 1, nfields, fields);
-        
-        mxSetField(out, 0, "header", 
+
+        mxSetField(out, 0, "header",
                    ipc_bridge_matlab::Header::ProcessMessage(msg.header));
 
       if (msg.child_frame_id == 0)
@@ -33,13 +33,13 @@ namespace ipc_bridge_matlab
           mxSetField(out, 0, "child_frame_id", mxCreateString(buf));
         }
 
-        mxSetField(out, 0, "transform", 
+        mxSetField(out, 0, "transform",
                    ipc_bridge_matlab::geometry_msgs::Transform::ProcessMessage(msg.transform));
 
         return out;
       }
-      
-      static int ProcessArray(const mxArray *a, 
+
+      static int ProcessArray(const mxArray *a,
                               ipc_bridge::geometry_msgs::TransformStamped &msg)
       {
         mxArray *field;
@@ -47,7 +47,7 @@ namespace ipc_bridge_matlab
         field = mxGetField(a, 0, "header");
         ipc_bridge_matlab::Header::ProcessArray(field, msg.header);
 
-        field = mxGetField(a, 0, "child_frame_id");     
+        field = mxGetField(a, 0, "child_frame_id");
         int buflen = 128;
         char buf[buflen];
         mxGetString(field, buf, buflen);

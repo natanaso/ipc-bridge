@@ -1,16 +1,16 @@
 %{
-#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/rosgraph_msgs_Header.h>
 #include <ipc_bridge/msgs/geometry_msgs_Point32.h>
 #include <ipc_bridge/msgs/sensor_msgs_ChannelFloat32.h>
 %}
 
-ipc_type roslib_Header;
+ipc_type rosgraph_msgs_Header;
 ipc_type geometry_msgs_Point32;
 ipc_type sensor_msgs_ChannelFloat32;
 
 struct sensor_msgs_PointCloud
 {
- roslib_Header header;
+ rosgraph_msgs_Header header;
  unsigned int points_length;
  geometry_msgs_Point32 points<>;
  unsigned int channels_length;
@@ -20,7 +20,7 @@ struct sensor_msgs_PointCloud
     points_length(0), points(0), channels_length(0), channels(0) {}
   sensor_msgs_PointCloud(const sensor_msgs_PointCloud &msg) :
     header(msg.header),
-    points_length(msg.points_length), 
+    points_length(msg.points_length),
     channels_length(msg.channels_length)
   {
     if (points != 0)
@@ -30,7 +30,7 @@ struct sensor_msgs_PointCloud
     if (msg.points_length > 0)
       {
         points = new geometry_msgs_Point32[msg.points_length];
-        memcpy((void*)points, (void*)msg.points, 
+        memcpy((void*)points, (void*)msg.points,
                msg.points_length*sizeof(geometry_msgs_Point32));
       }
 
@@ -41,7 +41,7 @@ struct sensor_msgs_PointCloud
     if (msg.channels_length > 0)
       {
         channels = new sensor_msgs_ChannelFloat32[msg.channels_length];
-        memcpy((void*)channels, (void*)msg.channels, 
+        memcpy((void*)channels, (void*)msg.channels,
                msg.channels_length*sizeof(sensor_msgs_ChannelFloat32));
       }
   }
@@ -68,7 +68,7 @@ struct sensor_msgs_PointCloud
     if (msg.points_length > 0)
       {
         points = new geometry_msgs_Point32[msg.points_length];
-        memcpy((void*)points, (void*)msg.points, 
+        memcpy((void*)points, (void*)msg.points,
                msg.points_length*sizeof(geometry_msgs_Point32));
       }
 
@@ -79,12 +79,12 @@ struct sensor_msgs_PointCloud
     if (msg.channels_length > 0)
       {
         channels = new sensor_msgs_ChannelFloat32[msg.channels_length];
-        memcpy((void*)channels, (void*)msg.channels, 
+        memcpy((void*)channels, (void*)msg.channels,
                msg.channels_length*sizeof(sensor_msgs_ChannelFloat32));
       }
 
     return *this;
-  } 
+  }
 %}
 };
 

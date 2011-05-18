@@ -3,7 +3,7 @@
 #include <ipc_bridge_matlab/ipc_bridge_matlab.h>
 #include <ipc_bridge/msgs/nav_msgs_OccupancyGrid.h>
 
-#include <roslib_Header.h>
+#include <rosgraph_msgs_Header.h>
 #include <nav_msgs_MapMetaData.h>
 
 namespace ipc_bridge_matlab
@@ -14,15 +14,15 @@ namespace ipc_bridge_matlab
     {
       static mxArray* ProcessMessage(const ipc_bridge::nav_msgs::OccupancyGrid &msg)
       {
-        const char *fields[] = {"header", 
-                                "info", 
+        const char *fields[] = {"header",
+                                "info",
                                 "data"};
         const int nfields = sizeof(fields)/sizeof(*fields);
         mxArray *out = mxCreateStructMatrix(1, 1, nfields, fields);
 
-        mxSetField(out, 0, "header", 
+        mxSetField(out, 0, "header",
                    ipc_bridge_matlab::Header::ProcessMessage(msg.header));
-        mxSetField(out, 0, "info", 
+        mxSetField(out, 0, "info",
                    ipc_bridge_matlab::nav_msgs::MapMetaData::ProcessMessage(msg.info));
 
         int length = msg.data_length;
@@ -34,8 +34,8 @@ namespace ipc_bridge_matlab
 
         return out;
       }
-      
-      static int ProcessArray(const mxArray *a, 
+
+      static int ProcessArray(const mxArray *a,
                               ipc_bridge::nav_msgs::OccupancyGrid &msg)
       {
         mxArray *field;

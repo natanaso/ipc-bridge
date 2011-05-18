@@ -3,7 +3,7 @@
 #include <ipc_bridge_matlab/ipc_bridge_matlab.h>
 #include <ipc_bridge/msgs/nav_msgs_Odometry.h>
 
-#include <roslib_Header.h>
+#include <rosgraph_msgs_Header.h>
 #include <geometry_msgs_PoseWithCovariance.h>
 #include <geometry_msgs_TwistWithCovariance.h>
 
@@ -15,14 +15,14 @@ namespace ipc_bridge_matlab
     {
       static mxArray* ProcessMessage(const ipc_bridge::nav_msgs::Odometry &msg)
       {
-        const char *fields[] = {"header", 
-                                "child_frame_id", 
+        const char *fields[] = {"header",
+                                "child_frame_id",
                                 "pose",
                                 "twist"};
         const int nfields = sizeof(fields)/sizeof(*fields);
         mxArray *out = mxCreateStructMatrix(1, 1, nfields, fields);
 
-        mxSetField(out, 0, "header", 
+        mxSetField(out, 0, "header",
                    ipc_bridge_matlab::Header::ProcessMessage(msg.header));
 
       if (msg.child_frame_id == 0)
@@ -37,15 +37,15 @@ namespace ipc_bridge_matlab
           mxSetField(out, 0, "child_frame_id", mxCreateString(buf));
         }
 
-        mxSetField(out, 0, "pose", 
+        mxSetField(out, 0, "pose",
                    ipc_bridge_matlab::geometry_msgs::PoseWithCovariance::ProcessMessage(msg.pose));
-        mxSetField(out, 0, "twist", 
+        mxSetField(out, 0, "twist",
                    ipc_bridge_matlab::geometry_msgs::TwistWithCovariance::ProcessMessage(msg.twist));
 
         return out;
       }
-      
-      static int ProcessArray(const mxArray *a, 
+
+      static int ProcessArray(const mxArray *a,
                               ipc_bridge::nav_msgs::Odometry &msg)
       {
         mxArray *field;
@@ -53,7 +53,7 @@ namespace ipc_bridge_matlab
         field = mxGetField(a, 0, "header");
         ipc_bridge_matlab::Header::ProcessArray(field, msg.header);
 
-        field = mxGetField(a, 0, "child_frame_id");     
+        field = mxGetField(a, 0, "child_frame_id");
 
         int buflen = 128;
         char buf[buflen];
@@ -65,11 +65,11 @@ namespace ipc_bridge_matlab
           }
 
         field = mxGetField(a, 0, "pose");
-        ipc_bridge_matlab::geometry_msgs::PoseWithCovariance::ProcessArray(field, 
+        ipc_bridge_matlab::geometry_msgs::PoseWithCovariance::ProcessArray(field,
                                                                         msg.pose);
 
         field = mxGetField(a, 0, "twist");
-        ipc_bridge_matlab::geometry_msgs::TwistWithCovariance::ProcessArray(field, 
+        ipc_bridge_matlab::geometry_msgs::TwistWithCovariance::ProcessArray(field,
                                                                          msg.twist);
 
         return SUCCESS;

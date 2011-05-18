@@ -3,7 +3,7 @@
 #include <ipc_bridge_matlab/ipc_bridge_matlab.h>
 #include <ipc_bridge/msgs/nav_msgs_GridCells.h>
 
-#include <roslib_Header.h>
+#include <rosgraph_msgs_Header.h>
 #include <geometry_msgs_Point.h>
 
 namespace ipc_bridge_matlab
@@ -18,7 +18,7 @@ namespace ipc_bridge_matlab
         const int nfields = sizeof(fields)/sizeof(*fields);
         mxArray *out = mxCreateStructMatrix(1, 1, nfields, fields);
 
-        mxSetField(out, 0, "header", 
+        mxSetField(out, 0, "header",
                    ipc_bridge_matlab::Header::ProcessMessage(msg.header));
         mxSetField(out, 0, "cell_width", mxCreateDoubleScalar(msg.cell_width));
         mxSetField(out, 0, "cell_height", mxCreateDoubleScalar(msg.cell_height));
@@ -26,14 +26,14 @@ namespace ipc_bridge_matlab
         const int length = msg.cells_length;
         mxArray *cells = mxCreateCellArray(1, &length);
         for (int i = 0; i < length; i++)
-          mxSetCell(cells, i, 
+          mxSetCell(cells, i,
                     ipc_bridge_matlab::geometry_msgs::Point::ProcessMessage(msg.cells[i]));
         mxSetField(out, 0, "cells", cells);
 
         return out;
       }
-      
-      static int ProcessArray(const mxArray *a, 
+
+      static int ProcessArray(const mxArray *a,
                               ipc_bridge::nav_msgs::GridCells &msg)
       {
         mxArray *field;

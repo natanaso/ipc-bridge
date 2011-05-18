@@ -3,7 +3,7 @@
 #include <ipc_bridge_matlab/ipc_bridge_matlab.h>
 #include <ipc_bridge/msgs/sensor_msgs_Image.h>
 
-#include <roslib_Header.h>
+#include <rosgraph_msgs_Header.h>
 
 namespace ipc_bridge_matlab
 {
@@ -13,17 +13,17 @@ namespace ipc_bridge_matlab
     {
       static mxArray* ProcessMessage(const ipc_bridge::sensor_msgs::Image &msg)
       {
-        const char *fields[] = {"header", 
-                                "height", 
-                                "width", 
-                                "encoding", 
+        const char *fields[] = {"header",
+                                "height",
+                                "width",
+                                "encoding",
                                 "is_bigendian",
-                                "step", 
+                                "step",
                                 "data"};
         const int nfields = sizeof(fields)/sizeof(*fields);
         mxArray *out = mxCreateStructMatrix(1, 1, nfields, fields);
 
-        mxSetField(out, 0, "header", 
+        mxSetField(out, 0, "header",
                    ipc_bridge_matlab::Header::ProcessMessage(msg.header));
         mxSetField(out, 0, "height", mxCreateDoubleScalar(msg.height));
         mxSetField(out, 0, "width", mxCreateDoubleScalar(msg.width));
@@ -40,18 +40,18 @@ namespace ipc_bridge_matlab
           }
         mxSetField(out, 0, "is_bigendian", mxCreateDoubleScalar(msg.is_bigendian));
         mxSetField(out, 0, "step", mxCreateDoubleScalar(msg.step));
-       
+
         int length = msg.data_length;
         mxArray *data = mxCreateDoubleMatrix(1, length, mxREAL);
         std::copy(msg.data, msg.data + length, mxGetPr(data));
         mxSetField(out, 0, "data", data);
-          
+
         return out;
       }
 
       static int ProcessArray(const mxArray *a, ipc_bridge::sensor_msgs::Image &msg)
       {
-        mxArray *field;       
+        mxArray *field;
 
         field = mxGetField(a, 0, "header");
         ipc_bridge_matlab::Header::ProcessArray(field, msg.header);
@@ -59,8 +59,8 @@ namespace ipc_bridge_matlab
         msg.height = mxGetScalar(mxGetField(a, 0, "height"));
         msg.width = mxGetScalar(mxGetField(a, 0, "width"));
 
-        field = mxGetField(a, 0, "encoding");     
-        
+        field = mxGetField(a, 0, "encoding");
+
         int buflen = 128;
         char buf[buflen];
         mxGetString(field, buf, buflen);

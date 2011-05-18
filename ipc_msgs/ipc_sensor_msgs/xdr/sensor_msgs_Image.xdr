@@ -1,12 +1,12 @@
 %{
-#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/rosgraph_msgs_Header.h>
 %}
 
-ipc_type roslib_Header;
+ipc_type rosgraph_msgs_Header;
 
 struct sensor_msgs_Image
 {
- roslib_Header header;
+ rosgraph_msgs_Header header;
  unsigned int height;
  unsigned int width;
  string encoding<>;
@@ -74,7 +74,7 @@ struct sensor_msgs_Image
       }
 
     return *this;
-  } 
+  }
 %}
 };
 

@@ -3,7 +3,7 @@
 #include <ipc_bridge_matlab/ipc_bridge_matlab.h>
 #include <ipc_bridge/msgs/sensor_msgs_LaserScan.h>
 
-#include <roslib_Header.h>
+#include <rosgraph_msgs_Header.h>
 
 namespace ipc_bridge_matlab
 {
@@ -13,12 +13,12 @@ namespace ipc_bridge_matlab
     {
       static mxArray* ProcessMessage(const ipc_bridge::sensor_msgs::LaserScan &msg)
       {
-        const char *fields[] = {"header", 
-                                "angle_min", 
-                                "angle_max", 
-                                "angle_increment", 
+        const char *fields[] = {"header",
+                                "angle_min",
+                                "angle_max",
+                                "angle_increment",
                                 "time_increment",
-                                "scan_time", 
+                                "scan_time",
                                 "range_min",
                                 "range_max",
                                 "ranges",
@@ -26,7 +26,7 @@ namespace ipc_bridge_matlab
         const int nfields = sizeof(fields)/sizeof(*fields);
         mxArray *out = mxCreateStructMatrix(1, 1, nfields, fields);
 
-        mxSetField(out, 0, "header", 
+        mxSetField(out, 0, "header",
                    ipc_bridge_matlab::Header::ProcessMessage(msg.header));
         mxSetField(out, 0, "angle_min", mxCreateDoubleScalar(msg.angle_min));
         mxSetField(out, 0, "angle_max", mxCreateDoubleScalar(msg.angle_max));
@@ -35,7 +35,7 @@ namespace ipc_bridge_matlab
         mxSetField(out, 0, "scan_time", mxCreateDoubleScalar(msg.scan_time));
         mxSetField(out, 0, "range_min", mxCreateDoubleScalar(msg.range_min));
         mxSetField(out, 0, "range_max", mxCreateDoubleScalar(msg.range_max));
-        
+
         int length = msg.ranges_length;
         mxArray *ranges = mxCreateDoubleMatrix(1, length, mxREAL);
         std::copy(msg.ranges, msg.ranges + length, mxGetPr(ranges));
@@ -45,13 +45,13 @@ namespace ipc_bridge_matlab
         mxArray *intensities = mxCreateDoubleMatrix(1, length, mxREAL);
         std::copy(msg.intensities, msg.intensities + length, mxGetPr(intensities));
         mxSetField(out, 0, "intensities", intensities);
-          
+
         return out;
       }
 
       static int ProcessArray(const mxArray *a, ipc_bridge::sensor_msgs::LaserScan &msg)
       {
-        mxArray *field;       
+        mxArray *field;
 
         field = mxGetField(a, 0, "header");
         ipc_bridge_matlab::Header::ProcessArray(field, msg.header);

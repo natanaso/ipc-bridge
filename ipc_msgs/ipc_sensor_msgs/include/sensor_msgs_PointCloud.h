@@ -3,7 +3,7 @@
 #include <ipc_bridge_matlab/ipc_bridge_matlab.h>
 #include <ipc_bridge/msgs/sensor_msgs_PointCloud.h>
 
-#include <roslib_Header.h>
+#include <rosgraph_msgs_Header.h>
 #include <geometry_msgs_Point32.h>
 #include <sensor_msgs_ChannelFloat32.h>
 
@@ -15,26 +15,26 @@ namespace ipc_bridge_matlab
     {
       static mxArray* ProcessMessage(const ipc_bridge::sensor_msgs::PointCloud &msg)
       {
-        const char *fields[] = {"header", 
-                                "points", 
-                                "channels"}; 
+        const char *fields[] = {"header",
+                                "points",
+                                "channels"};
         const int nfields = sizeof(fields)/sizeof(*fields);
         mxArray *out = mxCreateStructMatrix(1, 1, nfields, fields);
 
-        mxSetField(out, 0, "header", 
+        mxSetField(out, 0, "header",
                    ipc_bridge_matlab::Header::ProcessMessage(msg.header));
-        
-        const int length = msg.points_length;      
+
+        const int length = msg.points_length;
         mxArray *points = mxCreateCellArray(1, &length);
         for (unsigned int i = 0; i < length; i++)
-          mxSetCell(points, i, 
+          mxSetCell(points, i,
                     ipc_bridge_matlab::geometry_msgs::Point32::ProcessMessage(msg.points[i]));
         mxSetField(out, 0, "points", points);
 
-        const int length2 = msg.channels_length;      
+        const int length2 = msg.channels_length;
         mxArray *channels = mxCreateCellArray(1, &length2);
         for (unsigned int i = 0; i < length; i++)
-          mxSetCell(channels, i, 
+          mxSetCell(channels, i,
                     ipc_bridge_matlab::sensor_msgs::ChannelFloat32::ProcessMessage(msg.channels[i]));
         mxSetField(out, 0, "channels", channels);
 
@@ -43,7 +43,7 @@ namespace ipc_bridge_matlab
 
       static int ProcessArray(const mxArray *a, ipc_bridge::sensor_msgs::PointCloud &msg)
       {
-        mxArray *field;       
+        mxArray *field;
 
         field = mxGetField(a, 0, "header");
         ipc_bridge_matlab::Header::ProcessArray(field, msg.header);

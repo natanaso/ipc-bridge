@@ -1,14 +1,14 @@
 %{
-#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/rosgraph_msgs_Header.h>
 #include <ipc_bridge/msgs/geometry_msgs_Pose.h>
 %}
 
-ipc_type roslib_Header;
+ipc_type rosgraph_msgs_Header;
 ipc_type geometry_msgs_Pose;
 
 struct geometry_msgs_PoseArray
 {
- roslib_Header header;
+ rosgraph_msgs_Header header;
  unsigned int poses_length;
  geometry_msgs_Pose poses<>;
 
@@ -19,7 +19,7 @@ struct geometry_msgs_PoseArray
   {
     if (poses != 0)
       delete[] poses;
-  
+
     poses = 0;
     if (msg.poses_length > 0)
       {
@@ -37,10 +37,10 @@ struct geometry_msgs_PoseArray
   {
     header = msg.header;
     poses_length = msg.poses_length;
-    
+
     if (poses != 0)
       delete[] poses;
-  
+
     poses = 0;
     if (msg.poses_length > 0)
       {
