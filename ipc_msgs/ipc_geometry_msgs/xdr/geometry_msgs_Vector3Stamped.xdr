@@ -1,0 +1,37 @@
+%{
+#include <ipc_bridge/msgs/rosgraph_msgs_Header.h>
+#include <ipc_bridge/msgs/geometry_msgs_Vector3.h>
+%}
+
+ipc_type rosgraph_msgs_Header;
+ipc_type geometry_msgs_Vector3;
+
+struct geometry_msgs_Vector3Stamped
+{
+ rosgraph_msgs_Header header;
+ geometry_msgs_Vector3 vector;
+
+%{
+  geometry_msgs_Vector3Stamped() {}
+  geometry_msgs_Vector3Stamped(const geometry_msgs_Vector3Stamped& msg) :
+    header(msg.header), vector(msg.vector) {}
+  ~geometry_msgs_Vector3Stamped() {}
+  geometry_msgs_Vector3Stamped& operator= (const geometry_msgs_Vector3Stamped& msg)
+  {
+    header = msg.header;
+    vector = msg.vector;
+
+    return *this;
+  }
+%}
+};
+
+%{
+namespace ipc_bridge
+{
+    namespace geometry_msgs
+    {
+        typedef geometry_msgs_Vector3Stamped Vector3Stamped;
+    }
+}
+%}
