@@ -2,29 +2,29 @@
 #include <cstring>
 %}
 
-struct roslib_Header
+struct rosgraph_msgs_Header
 {
   unsigned int seq;
   double stamp;
   string frame_id<>;
 %{
-  roslib_Header() : seq(0), stamp(0) 
+  rosgraph_msgs_Header() : seq(0), stamp(0)
   {
     frame_id = new char[1];
     frame_id[0] = '\0';
   }
-  roslib_Header(const roslib_Header& msg) :
+  rosgraph_msgs_Header(const rosgraph_msgs_Header& msg) :
     seq(msg.seq), stamp(msg.stamp)
   {
     frame_id = new char[strlen(msg.frame_id) + 1];
     strcpy(frame_id, msg.frame_id);
   }
-  ~roslib_Header()
+  ~rosgraph_msgs_Header()
   {
     if (frame_id != 0)
       delete[] frame_id;
   }
-  roslib_Header& operator= (const roslib_Header& msg)
+  rosgraph_msgs_Header& operator= (const rosgraph_msgs_Header& msg)
   {
     seq = msg.seq;
     stamp = msg.stamp;
@@ -43,7 +43,7 @@ struct roslib_Header
 %{
 namespace ipc_bridge
 {
-    typedef roslib_Header Header;
+    typedef rosgraph_msgs_Header Header;
 }
 %}
 

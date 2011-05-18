@@ -1,0 +1,1 @@
+PKG_CXXFLAGS += -I$(shell rospack find ipc_rosgraph_msgs)/include

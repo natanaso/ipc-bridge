@@ -1,7 +1,7 @@
 #ifndef __IPC_BRIDGE_MATLAB_ROSLIB_HEADER__
 #define __IPC_BRIDGE_MATLAB_ROSLIB_HEADER__
 #include <ipc_bridge_matlab/ipc_bridge_matlab.h>
-#include <ipc_bridge/msgs/roslib_Header.h>
+#include <ipc_bridge/msgs/rosgraph_msgs_Header.h>
 
 namespace ipc_bridge_matlab
 {
@@ -9,8 +9,8 @@ namespace ipc_bridge_matlab
   {
     static mxArray* ProcessMessage(const ipc_bridge::Header &msg)
     {
-      const char *fields[] = {"seq", 
-                              "stamp", 
+      const char *fields[] = {"seq",
+                              "stamp",
                               "frame_id"};
       const int nfields = sizeof(fields)/sizeof(*fields);
       mxArray *out = mxCreateStructMatrix(1, 1, nfields, fields);
@@ -32,7 +32,7 @@ namespace ipc_bridge_matlab
 
       return out;
     }
-    
+
     static int ProcessArray(const mxArray *a, ipc_bridge::Header &msg)
     {
       mxArray *field;
@@ -43,8 +43,8 @@ namespace ipc_bridge_matlab
       field = mxGetField(a, 0, "stamp");
       msg.stamp = mxGetScalar(field);
 
-      field = mxGetField(a, 0, "frame_id");     
-      
+      field = mxGetField(a, 0, "frame_id");
+
       int buflen = 128;
       char buf[buflen];
       mxGetString(field, buf, buflen);
@@ -53,7 +53,7 @@ namespace ipc_bridge_matlab
           msg.frame_id = new char[strlen(buf) + 1];
           strcpy(msg.frame_id, buf);
         }
-      
+
       return SUCCESS;
     }
 
