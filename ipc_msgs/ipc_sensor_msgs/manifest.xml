@@ -9,6 +9,13 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/ipc_sensor_msgs</url>
 
+  <depend package="ipc_rosgraph_msgs"/>
+  <depend package="ipc_std_msgs"/>
+
+  <export>
+    <cpp cflags="-I${prefix}/include"/>
+  </export>
+
 </package>
 
 
